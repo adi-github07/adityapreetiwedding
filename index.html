@@ -1,29 +1,29 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#fcf8f2">
-
 <title>Aditya & Preeti | Wedding Invitation</title>
-<meta name="description" content="Join Aditya and Preeti as they celebrate their wedding on January 4, 2027, in Hubli.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --ink: #443329;
-  --muted: #806f62;
-  --cream: #fcf8f2;
-  --paper: #fbf6ec; /* Warmer beige for the page */
-  --gold: #b58b55;
-  --line: #e5d6c4;
-  --bg-dark-beige: #e4d8c9; /* Richer beige for the outer background */
+  --cream: #faf6ed;
+  --paper: #fffdf8;
+  --brown: #634b37;
+  --gold: #b18a4b;
+  --green: #53694b;
+  --plum: #65465b;
+  --text: #51483e;
 }
 
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
@@ -32,562 +32,738 @@ html {
 }
 
 body {
-  margin: 0;
-  background: var(--bg-dark-beige);
-  color: var(--ink);
-  font-family: "DM Sans", sans-serif;
-  line-height: 1.7;
+  background: var(--cream);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
 }
 
-.page {
-  max-width: 900px;
-  margin: auto;
-  background: var(--paper);
-  overflow: hidden;
-  box-shadow: 0 0 50px rgba(65,40,20,.12);
+button, a {
+  font: inherit;
 }
 
-section {
-  padding: 85px 28px;
+a {
+  color: inherit;
+  text-decoration: none;
 }
 
-h1, h2, h3 {
-  font-family: "Cormorant Garamond", serif;
-  font-weight: 500;
-  line-height: 1.1;
-}
+/* OPENING SCREEN */
 
-h2 {
-  font-size: 54px;
-  margin: 12px 0;
-}
-
-h3 {
-  font-size: 34px;
-  margin: 8px 0;
-}
-
-.center {
+#welcomeScreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,.8), transparent 55%),
+    linear-gradient(145deg, #f5e9d5, #fffaf0, #eadbc3);
+  transition: opacity .8s ease, visibility .8s ease;
 }
 
-.eyebrow {
-  font-size: 11px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--muted);
+#welcomeScreen.closed {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
-.script {
-  font-family: "Great Vibes", cursive;
-  font-size: 43px;
-  color: var(--gold);
-  line-height: 1.4;
+.welcome-card {
+  width: 100%;
+  max-width: 570px;
+  padding: 55px 28px;
+  border: 1px solid #c5a56e;
+  outline: 1px solid rgba(177,138,75,.4);
+  outline-offset: 9px;
+  background: rgba(255,253,248,.72);
+  box-shadow: 0 20px 70px rgba(90,65,35,.12);
 }
 
 .ornament {
   color: var(--gold);
-  letter-spacing: 9px;
-  margin: 20px 0;
+  font-size: 28px;
+  margin-bottom: 22px;
 }
 
-.intro {
-  max-width: 570px;
-  margin: 15px auto;
-  color: var(--muted);
+.welcome-small {
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-size: 11px;
+  color: var(--brown);
 }
 
-.btn {
-  display: inline-block;
-  padding: 12px 25px;
-  border: 1px solid currentColor;
-  border-radius: 50px;
-  text-decoration: none;
-  font-size: 12px;
-  letter-spacing: 1px;
-  margin-top: 18px;
+.welcome-names {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(48px, 11vw, 76px);
+  line-height: 1.1;
+  color: var(--brown);
+  margin: 22px 0;
+}
+
+.welcome-names span {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.welcome-date {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 25px;
+  margin-bottom: 32px;
+}
+
+.open-btn {
+  border: 1px solid var(--gold);
+  background: var(--brown);
+  color: white;
+  padding: 16px 34px;
+  letter-spacing: 3px;
+  font-size: 11px;
+  cursor: pointer;
   transition: .3s;
 }
 
-.btn:hover {
-  background: var(--ink);
-  color: white;
+.open-btn:hover {
+  background: var(--gold);
+  transform: translateY(-3px);
+}
+
+/* MAIN WEBSITE */
+
+#invitation {
+  display: none;
+  animation: fadeIn 1.2s ease;
+}
+
+#invitation.visible {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250,246,237,.96);
+  border-bottom: 1px solid #e6dccb;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--brown);
+}
+
+nav a:hover {
+  color: var(--gold);
 }
 
 /* HERO */
+
 .hero {
-  min-height: 780px;
+  min-height: 650px;
+  padding: 100px 20px 85px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   text-align: center;
-  position: relative;
-  padding: 60px 25px;
   background:
-    radial-gradient(ellipse at top, #f4eadc, transparent 65%),
-    var(--cream);
+    linear-gradient(rgba(250,246,237,.75), rgba(250,246,237,.88)),
+    radial-gradient(ellipse at center, #e9d9bd, #faf6ed 70%);
 }
 
-.hero:before,
-.hero:after {
-  content: "";
-  position: absolute;
-  border: 1px solid #d9bd97;
-  border-radius: 50%;
-  width: 390px;
-  height: 390px;
-  opacity: .55;
-  pointer-events: none;
-  animation: pulseRotate 20s linear infinite;
-}
-
-.hero:after {
-  width: 490px;
-  height: 490px;
-  animation: pulseRotate 25s linear infinite reverse;
-}
-
-.hero-inner {
-  z-index: 1;
-  position: relative;
-}
-
-.ganesh {
-  font-family: "Cormorant Garamond", serif;
-  font-size: 22px;
-  color: #986d43;
-  margin-bottom: 40px;
+.hero-label {
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  font-size: 11px;
+  color: var(--gold);
 }
 
 .hero h1 {
-  font-size: clamp(62px, 12vw, 110px);
-  margin: 15px 0;
-  line-height: 1.1;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(65px, 13vw, 115px);
+  font-weight: 400;
+  color: var(--brown);
+  line-height: 1;
+  margin: 30px 0;
 }
 
-.amp {
+.hero h1 span {
   color: var(--gold);
   font-style: italic;
 }
 
 .hero-date {
-  font-family: "Cormorant Garamond", serif;
-  font-size: 28px;
-  margin-top: 20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 29px;
+  color: var(--brown);
 }
 
-.hero-place {
-  color: var(--muted);
-}
-
-.hero .btn {
-  color: var(--ink);
+.hero-venue {
+  margin-top: 12px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 /* COUNTDOWN */
-.countdown {
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  gap: 10px;
-  max-width: 600px;
-  margin: 40px auto 0;
-}
 
-.count {
-  padding: 18px 5px;
-  border-top: 1px solid var(--line);
-}
-
-.count strong {
-  display: block;
-  font: 500 42px "Cormorant Garamond",serif;
-}
-
-.count span {
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--muted);
-}
-
-/* EVENT CARDS */
-.events {
-  display: grid;
-  gap: 25px;
-  max-width: 720px;
-  margin: 45px auto 0;
-}
-
-.event {
-  border-radius: 5px;
-  padding: 42px 25px;
+.countdown-section {
+  padding: 65px 20px;
   text-align: center;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(90,60,30,.13);
-  transition: transform .4s, box-shadow .4s;
+  background: #eee4d4;
 }
 
-.event:hover {
+.section-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 43px;
+  font-weight: 500;
+  color: var(--brown);
+}
+
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-top: 35px;
+}
+
+.time-box {
+  min-width: 85px;
+  padding: 20px 12px;
+  background: rgba(255,255,255,.6);
+  border: 1px solid #d7c4a5;
+}
+
+.time-box strong {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 38px;
+  color: var(--brown);
+}
+
+.time-box span {
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+/* COMMON SECTIONS */
+
+section.content-section {
+  padding: 85px 20px;
+  text-align: center;
+}
+
+.section-intro {
+  max-width: 650px;
+  margin: 18px auto 40px;
+  line-height: 1.9;
+  font-size: 14px;
+  color: #766a5d;
+}
+
+.small-divider {
+  color: var(--gold);
+  font-size: 25px;
+  margin: 20px 0;
+}
+
+/* STORY */
+
+.story {
+  background: var(--paper);
+}
+
+.story-text {
+  max-width: 700px;
+  margin: 25px auto 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 25px;
+  line-height: 1.7;
+}
+
+/* EVENTS */
+
+.events {
+  background: #f4eee3;
+}
+
+.event-grid {
+  max-width: 950px;
+  margin: 40px auto 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.event-card {
+  padding: 35px 25px;
+  border: 1px solid rgba(100,80,55,.16);
+  text-align: center;
+  transition: transform .3s, box-shadow .3s;
+}
+
+.event-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 15px 30px rgba(60,40,20,.12);
+  box-shadow: 0 14px 30px rgba(70,50,30,.09);
 }
 
 .event-icon {
-  font-size: 32px;
-  margin-bottom: 10px;
-  display: inline-block;
-  animation: floatIcon 3s ease-in-out infinite;
+  font-size: 35px;
+  margin-bottom: 12px;
 }
 
-.event-date {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 3px;
+.event-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 34px;
+  font-weight: 500;
+  margin-bottom: 12px;
 }
 
-.event h3 {
-  font-size: 48px;
+.event-card p {
+  font-size: 13px;
+  line-height: 1.9;
 }
 
-.event-time {
-  font-family: "Cormorant Garamond",serif;
-  font-size: 27px;
+.event-card .event-time {
+  font-weight: 700;
   margin: 12px 0;
 }
 
-.event-venue {
-  font-size: 14px;
-  margin-top: 5px;
-}
-
-.event .btn {
-  margin-top: 22px;
-}
-
-/* HALDI */
 .haldi {
-  background:
-    radial-gradient(circle at 10% 10%,rgba(255,255,255,.55),transparent 30%),
-    #f4e4a8;
-  color: #71501e;
+  background: #f5edcf;
+  color: #755c20;
 }
-.haldi .event-date { color: #92702f; }
-.haldi .btn { color: #71501e; }
 
-/* MEHENDI */
 .mehendi {
-  background:
-    radial-gradient(circle at 90% 10%,rgba(255,255,255,.16),transparent 30%),
-    #dce5ce;
-  color: #35553a;
+  background: #e4eadb;
+  color: #405a39;
 }
-.mehendi .event-date { color: #54734e; }
-.mehendi .btn { color: #35553a; }
 
-/* SANGEET */
 .sangeet {
-  background:
-    radial-gradient(circle at 50% 0%,#65433c,transparent 70%),
-    #452d35;
-  color: #f8e8c9;
+  background: #eadfe8;
+  color: #65465b;
 }
-.sangeet .event-date { color: #d9b981; }
-.sangeet .btn { color: #f8e8c9; }
 
-/* WEDDING */
 .wedding {
-  background:
-    radial-gradient(circle at 50% 0%,#f5e5cb,transparent 65%),
-    #f5e9d9;
-  color: #624630;
+  background: #fffaf0;
+  color: #765b3a;
 }
-.wedding .event-date { color: #997345; }
-.wedding .btn { color: #624630; }
+
+.event-link {
+  display: inline-block;
+  margin-top: 18px;
+  padding: 11px 18px;
+  border: 1px solid currentColor;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.event-link:hover {
+  background: rgba(255,255,255,.6);
+}
 
 /* FAMILY */
+
 .family {
+  background: var(--paper);
+}
+
+.family-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 30px;
-  max-width: 650px;
-  margin: 40px auto;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 25px;
+  max-width: 750px;
+  margin: 40px auto 0;
 }
 
 .family-card {
-  padding: 25px;
-  border-top: 1px solid var(--line);
+  padding: 35px 20px;
+  background: var(--cream);
+  border: 1px solid #e3d5bf;
 }
 
-.family-card p {
-  margin: 4px;
-  color: var(--muted);
+.family-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  color: var(--brown);
+  margin-bottom: 12px;
 }
 
 /* VENUE */
-.venue-box {
-  max-width: 650px;
-  margin: 35px auto;
-  padding: 45px 25px;
-  border: 1px solid var(--line);
-  background: var(--cream);
+
+.venue {
+  background: #eee4d4;
 }
 
 .venue-name {
-  font: 500 38px "Cormorant Garamond",serif;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  color: var(--brown);
+  margin: 20px 0 10px;
+}
+
+.map-btn {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 14px 25px;
+  background: var(--brown);
+  color: white;
+  letter-spacing: 1px;
+  font-size: 11px;
+}
+
+.map-btn:hover {
+  background: var(--gold);
 }
 
 /* FOOTER */
-.footer {
+
+footer {
+  padding: 65px 20px;
   text-align: center;
-  padding: 80px 25px;
-  background: #ecdcc9; /* Match deeper beige */
+  background: #594535;
+  color: #fff8eb;
 }
 
-.footer h2 {
+footer h2 {
+  font-family: 'Cormorant Garamond', serif;
   font-size: 48px;
+  font-weight: 400;
+  margin: 15px 0;
 }
 
-.footer p {
-  color: var(--muted);
-}
-
-/* MUSIC BUTTON */
-.music-btn {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  background: var(--gold);
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 50px;
-  font-family: "DM Sans", sans-serif;
-  font-size: 13px;
+footer p {
+  font-size: 12px;
+  line-height: 2;
   letter-spacing: 1px;
+}
+
+.back-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border: none;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  background: var(--brown);
+  color: white;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-  z-index: 100;
-  transition: transform 0.3s, background 0.3s;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  z-index: 200;
+  font-size: 18px;
 }
 
-.music-btn:hover {
-  transform: scale(1.05);
-  background: var(--ink);
-}
+@media(max-width: 650px) {
+  nav {
+    gap: 15px;
+  }
 
-/* ANIMATIONS */
-.animate {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-}
+  nav a {
+    font-size: 9px;
+  }
 
-.animate.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+  .hero {
+    min-height: 560px;
+  }
 
-@keyframes floatIcon {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
+  .event-grid,
+  .family-grid {
+    grid-template-columns: 1fr;
+  }
 
-@keyframes pulseRotate {
-  0% { transform: rotate(0deg) scale(1); }
-  50% { transform: rotate(180deg) scale(1.03); }
-  100% { transform: rotate(360deg) scale(1); }
-}
+  section.content-section {
+    padding: 65px 18px;
+  }
 
-@media(max-width:560px) {
-  section { padding: 65px 18px; }
-  .hero { min-height: 680px; }
-  .hero:before { width: 280px; height: 280px; }
-  .hero:after { width: 340px; height: 340px; }
-  h2 { font-size: 43px; }
-  .event { padding: 35px 15px; }
-  .event h3 { font-size: 42px; }
-  .family { grid-template-columns: 1fr; gap: 5px; }
-  .count strong { font-size: 30px; }
-  .music-btn { bottom: 15px; right: 15px; padding: 10px 15px; }
+  .section-heading {
+    font-size: 36px;
+  }
 }
 </style>
 </head>
 
 <body>
-<!-- MUSIC PLAYER -->
-<button id="musicToggle" class="music-btn">
-  🎵 Play Music
-</button>
-<audio id="bgMusic" loop>
-  <!-- Replace this src with your own background music URL -->
-  <source src="https://assets.mixkit.co/music/preview/mixkit-acoustic-guitar-wedding-890.mp3" type="audio/mpeg">
-</audio>
 
-<div class="page">
+<!-- OPENING INVITATION -->
+<div id="welcomeScreen">
+  <div class="welcome-card">
+    <div class="ornament">✧ ❀ ✧</div>
+    <p class="welcome-small">Together with our families</p>
+
+    <h1 class="welcome-names">
+      Aditya<br>
+      <span>&</span><br>
+      Preeti
+    </h1>
+
+    <p class="welcome-date">January 04, 2027</p>
+    <p class="welcome-small">Request the pleasure of your presence</p>
+
+    <div style="margin:30px 0">
+      <button type="button" class="open-btn" id="openInvitation">
+        OPEN INVITATION &nbsp; ✦
+      </button>
+    </div>
+
+    <div class="ornament">❀</div>
+  </div>
+</div>
+
+<!-- MAIN INVITATION -->
+<main id="invitation">
+
+<nav>
+  <a href="#home">Home</a>
+  <a href="#story">Our Story</a>
+  <a href="#events">Events</a>
+  <a href="#family">Family</a>
+  <a href="#venue">Venue</a>
+</nav>
 
 <!-- HERO -->
-<section class="hero animate">
-  <div class="hero-inner">
-    <div class="ganesh">॥ श्री गणेशाय नमः ॥</div>
-    <div class="eyebrow">Together with their families</div>
-    <h1>Aditya <span class="amp">&</span><br>Preeti</h1>
-    <div class="script">A beautiful beginning</div>
-    <div class="ornament">✦ ❀ ✦ ❀ ✦</div>
-    <div class="hero-date">4 January 2027</div>
-    <div class="hero-place">
-      Vidyadhiraj Bhavan · Navanagar, Hubli
+<header class="hero" id="home">
+  <p class="hero-label">A celebration of love</p>
+
+  <h1>
+    Aditya <span>&</span><br>Preeti
+  </h1>
+
+  <p class="hero-date">January 04, 2027</p>
+  <div class="small-divider">✧ ❀ ✧</div>
+
+  <p class="hero-venue">
+    Vidyadhiraj Bhavan · Navanagar · Hubli
+  </p>
+</header>
+
+<!-- COUNTDOWN -->
+<div class="countdown-section">
+  <h2 class="section-heading">The Celebration Begins In</h2>
+
+  <div class="countdown">
+    <div class="time-box">
+      <strong id="days">00</strong>
+      <span>Days</span>
     </div>
-    <a href="#invitation" class="btn">
-      DISCOVER OUR INVITATION ↓
-    </a>
+
+    <div class="time-box">
+      <strong id="hours">00</strong>
+      <span>Hours</span>
+    </div>
+
+    <div class="time-box">
+      <strong id="minutes">00</strong>
+      <span>Minutes</span>
+    </div>
+
+    <div class="time-box">
+      <strong id="seconds">00</strong>
+      <span>Seconds</span>
+    </div>
   </div>
+</div>
+
+<!-- STORY -->
+<section class="content-section story" id="story">
+  <p class="hero-label">A beautiful beginning</p>
+  <h2 class="section-heading">Our Story</h2>
+  <div class="small-divider">✧</div>
+
+  <p class="story-text">
+    Every love story has a beginning, and ours is a journey
+    filled with beautiful moments, laughter and love.
+    Two families, two hearts, and one beautiful celebration
+    that brings everyone together.
+    <br><br>
+    We would be delighted to have you with us as we begin
+    this new chapter of our lives.
+  </p>
 </section>
 
-<!-- INVITATION AND COUNTDOWN -->
-<section id="invitation" class="center animate">
-  <div class="ganesh">॥ श्री गणेशाय नमः ॥</div>
-  <div class="ornament">✦ · ✦ · ✦</div>
-  <div class="eyebrow">A celebration of love</div>
-  <h2>Two hearts, one journey</h2>
-  <p class="intro">
-    With the blessings of our families and the love of our dear ones,
-    we invite you to be a part of our most cherished celebration
-    as we begin a beautiful new chapter together.
-  </p>
-  <div class="script">We can't wait to celebrate with you!</div>
-
-  <div class="countdown animate" aria-label="Countdown to wedding">
-    <div class="count"><strong id="days">--</strong><span>Days</span></div>
-    <div class="count"><strong id="hours">--</strong><span>Hours</span></div>
-    <div class="count"><strong id="minutes">--</strong><span>Minutes</span></div>
-    <div class="count"><strong id="seconds">--</strong><span>Seconds</span></div>
-  </div>
-</section>
-
-<!-- CELEBRATIONS -->
-<section class="center animate">
-  <div class="eyebrow">The wedding celebrations</div>
-  <h2>Moments to cherish</h2>
-  <p class="intro">
-    From colourful traditions to magical evenings,
-    every moment becomes special with you by our side.
+<!-- EVENTS -->
+<section class="content-section events" id="events">
+  <p class="hero-label">Save the dates</p>
+  <h2 class="section-heading">Wedding Celebrations</h2>
+  <p class="section-intro">
+    Four beautiful moments, countless memories.
+    Join us as we celebrate every tradition and every
+    moment leading up to our special day.
   </p>
 
-  <div class="events">
+  <div class="event-grid">
+
     <!-- HALDI -->
-    <article class="event haldi animate">
+    <article class="event-card haldi">
       <div class="event-icon">🌼</div>
-      <div class="event-date">Saturday · 2 January 2027</div>
       <h3>Haldi</h3>
-      <div class="script">A little sunshine & lots of love</div>
-      <div class="event-time">10:00 AM</div>
-      <div class="event-venue">A morning filled with turmeric, laughter and blessings.</div>
-      <a class="btn" href="https://share.google/bfJlqbEpwGcCXOpT9" target="_blank" rel="noopener">VIEW HALDI LOCATION ↗</a>
+      <p>A splash of yellow, sunshine and happiness!</p>
+      <p class="event-time">January 02, 2027 · 10:00 AM</p>
+      <p>Venue: Haldi celebration location</p>
+      <a class="event-link"
+         href="https://share.google/bfJlqbEpwGcCXOpT9"
+         target="_blank" rel="noopener">
+        View Location
+      </a>
     </article>
 
     <!-- MEHENDI -->
-    <article class="event mehendi animate">
+    <article class="event-card mehendi">
       <div class="event-icon">🌿</div>
-      <div class="event-date">Saturday · 2 January 2027</div>
       <h3>Mehendi</h3>
-      <div class="script">Colours, patterns & happiness</div>
-      <div class="event-time">7:00 PM</div>
-      <div class="event-venue">An intimate celebration at home, filled with music, beautiful mehendi and lovely memories.</div>
-      <div class="ornament">❀ ✦ ❀</div>
-      <div class="eyebrow">At Home</div>
+      <p>Beautiful patterns, green hues and happy hearts.</p>
+      <p class="event-time">January 02, 2027 · 7:00 PM</p>
+      <p>Venue: At Home</p>
     </article>
 
     <!-- SANGEET -->
-    <article class="event sangeet animate">
-      <div class="event-icon">✨</div>
-      <div class="event-date">Sunday · 3 January 2027</div>
+    <article class="event-card sangeet">
+      <div class="event-icon">🎶</div>
       <h3>Sangeet</h3>
-      <div class="script">Dance like nobody's watching!</div>
-      <div class="event-time">6:30 PM</div>
-      <div class="event-venue">An evening of music, dance, celebration and unforgettable memories.<br>Vidyadhiraj Bhavan · Navanagar, Hubli</div>
-      <a class="btn" href="https://share.google/l19DLfeLPZMRmF7h2" target="_blank" rel="noopener">VIEW SANGEET LOCATION ↗</a>
+      <p>An evening of music, dance and celebration!</p>
+      <p class="event-time">January 03, 2027 · 6:30 PM</p>
+      <p>Vidyadhiraj Bhavan, Navanagar, Hubli</p>
+      <a class="event-link"
+         href="https://share.google/l19DLfeLPZMRmF7h2"
+         target="_blank" rel="noopener">
+        View Location
+      </a>
     </article>
 
     <!-- WEDDING -->
-    <article class="event wedding animate">
+    <article class="event-card wedding">
       <div class="event-icon">💍</div>
-      <div class="event-date">Monday · 4 January 2027</div>
-      <h3>Wedding</h3>
-      <div class="script">And so our forever begins</div>
-      <div class="event-time">11:38 AM</div>
-      <div class="event-venue">With blessings, traditions and promises for a lifetime.<br>Vidyadhiraj Bhavan · Navanagar, Hubli</div>
-      <a class="btn" href="https://share.google/l19DLfeLPZMRmF7h2" target="_blank" rel="noopener">VIEW WEDDING LOCATION ↗</a>
+      <h3>The Wedding</h3>
+      <p>The day two hearts become one.</p>
+      <p class="event-time">January 04, 2027 · 11:38 AM</p>
+      <p>Vidyadhiraj Bhavan, Navanagar, Hubli</p>
+      <a class="event-link"
+         href="https://share.google/l19DLfeLPZMRmF7h2"
+         target="_blank" rel="noopener">
+        View Location
+      </a>
     </article>
+
   </div>
 </section>
 
-<!-- FAMILIES -->
-<section class="center animate">
-  <div class="eyebrow">Our families</div>
-  <h2>With love & blessings</h2>
-  <div class="ornament">✦ ❀ ✦</div>
-  <div class="family">
-    <div class="family-card animate">
-      <h3>Preeti</h3>
-      <p>Daughter of</p>
-      <p><strong>Prasad Pai</strong></p>
-      <p><strong>Pavitra Pai</strong></p>
+<!-- FAMILY -->
+<section class="content-section family" id="family">
+  <p class="hero-label">With blessings and love</p>
+  <h2 class="section-heading">Our Families</h2>
+  <div class="small-divider">❀</div>
+
+  <div class="family-grid">
+    <div class="family-card">
+      <h3>The Bride</h3>
+      <p>Preeti</p>
+      <p style="margin-top:12px">Daughter of</p>
+      <p>Prasad Pai & Pavitra Pai</p>
     </div>
-    <div class="family-card animate">
-      <h3>Aditya</h3>
-      <p>With the blessings of</p>
-      <p><strong>Our family</strong></p>
+
+    <div class="family-card">
+      <h3>The Groom</h3>
+      <p>Aditya</p>
+      <p style="margin-top:12px">Together with his family</p>
     </div>
   </div>
 </section>
 
-<!-- MAIN VENUE -->
-<section class="center animate">
-  <div class="eyebrow">Join us at</div>
-  <h2>Let's celebrate together</h2>
-  <div class="venue-box animate">
-    <div class="ornament">✦ ❀ ✦</div>
-    <div class="venue-name">Vidyadhiraj Bhavan</div>
-    <p>Navanagar, Hubli</p>
-    <p class="eyebrow">Behind Volkswagen Showroom</p>
-    <a class="btn" href="https://share.google/l19DLfeLPZMRmF7h2" target="_blank" rel="noopener">OPEN GOOGLE MAPS ↗</a>
-  </div>
+<!-- VENUE -->
+<section class="content-section venue" id="venue">
+  <p class="hero-label">We can't wait to see you</p>
+  <h2 class="section-heading">The Wedding Venue</h2>
+
+  <div class="small-divider">✧</div>
+
+  <p class="venue-name">Vidyadhiraj Bhavan</p>
+  <p>Navanagar, Hubli</p>
+  <p>Behind Volkswagen Showroom</p>
+
+  <a class="map-btn"
+     href="https://share.google/l19DLfeLPZMRmF7h2"
+     target="_blank" rel="noopener">
+    GET DIRECTIONS ↗
+  </a>
 </section>
 
 <!-- FOOTER -->
-<section class="footer animate">
-  <div class="ornament">✦ · ❀ · ✦</div>
-  <div class="script">A forever kind of love</div>
+<footer>
+  <p>WITH LOVE AND BLESSINGS</p>
   <h2>Aditya & Preeti</h2>
-  <p>4 January 2027 · Hubli</p>
-  <p>We would love to have you with us on our special day.</p>
-  <div class="ornament">॥ शुभ विवाह ॥</div>
-</section>
+  <p>JANUARY 04, 2027</p>
+  <div class="small-divider">❀</div>
+  <p>We look forward to celebrating with you!</p>
+</footer>
 
-</div>
+</main>
+
+<button type="button" class="back-top" id="backTop"
+        aria-label="Back to top" style="display:none">
+  ↑
+</button>
 
 <script>
-// --- WEDDING COUNTDOWN ---
-const weddingDate = new Date("2027-01-04T11:38:00+05:30");
+/* OPEN INVITATION - MAIN FIX */
+
+(function () {
+  const openButton = document.getElementById("openInvitation");
+  const welcomeScreen = document.getElementById("welcomeScreen");
+  const invitation = document.getElementById("invitation");
+
+  function openWeddingInvitation() {
+    welcomeScreen.classList.add("closed");
+
+    invitation.classList.add("visible");
+
+    document.body.style.overflow = "auto";
+
+    // Remove the opening screen after its fade-out animation
+    setTimeout(function () {
+      welcomeScreen.style.display = "none";
+    }, 850);
+
+    // Start countdown
+    updateCountdown();
+  }
+
+  openButton.addEventListener("click", openWeddingInvitation);
+})();
+
+/* WEDDING COUNTDOWN */
 
 function updateCountdown() {
-  const now = new Date();
-  const diff = weddingDate.getTime() - now.getTime();
-  const elements = ["days", "hours", "minutes", "seconds"];
+  const weddingDate = new Date("2027-01-04T11:38:00+05:30").getTime();
+  const now = Date.now();
+  const difference = weddingDate - now;
 
-  if (diff <= 0) {
-    elements.forEach(id => document.getElementById(id).textContent = "0");
+  if (difference <= 0) {
+    document.getElementById("days").textContent = "00";
+    document.getElementById("hours").textContent = "00";
+    document.getElementById("minutes").textContent = "00";
+    document.getElementById("seconds").textContent = "00";
     return;
   }
 
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
-  const seconds = Math.floor((diff / 1000) % 60);
+  const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((difference / (1000 * 60)) % 60);
+  const seconds = Math.floor((difference / 1000) % 60);
 
   document.getElementById("days").textContent = days;
   document.getElementById("hours").textContent = String(hours).padStart(2, "0");
@@ -598,40 +774,19 @@ function updateCountdown() {
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-// --- SCROLL ANIMATIONS ---
-const observerOptions = {
-  root: null,
-  rootMargin: "0px",
-  threshold: 0.15
-};
+/* BACK TO TOP */
 
-const observer = new IntersectionObserver((entries, observer) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target); // Trigger only once
-    }
-  });
-}, observerOptions);
+const backTop = document.getElementById("backTop");
 
-document.querySelectorAll('.animate').forEach(el => {
-  observer.observe(el);
+window.addEventListener("scroll", function () {
+  backTop.style.display = window.scrollY > 400 ? "block" : "none";
 });
 
-// --- MUSIC PLAYER LOGIC ---
-const musicBtn = document.getElementById('musicToggle');
-const bgMusic = document.getElementById('bgMusic');
-let isPlaying = false;
-
-musicBtn.addEventListener('click', () => {
-  if (isPlaying) {
-    bgMusic.pause();
-    musicBtn.innerHTML = '🎵 Play Music';
-  } else {
-    bgMusic.play();
-    musicBtn.innerHTML = '⏸ Pause Music';
-  }
-  isPlaying = !isPlaying;
+backTop.addEventListener("click", function () {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 });
 </script>
 
